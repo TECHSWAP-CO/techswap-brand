@@ -97,6 +97,57 @@
         border: 1px solid rgba(15, 23, 42, 0.08);
       }
 
+      .palette-scale-card {
+        background: #f8fbff;
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1rem;
+      }
+
+      .palette-scale-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .palette-scale-grid {
+        display: grid;
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+        gap: 0.35rem;
+      }
+
+      .palette-scale-swatch {
+        min-height: 44px;
+        border-radius: 0.6rem;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 0.3rem;
+        font-size: 0.6rem;
+        line-height: 1;
+        font-weight: 600;
+      }
+
+      .palette-scale-swatch span {
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(2px);
+        border-radius: 999px;
+        padding: 0.15rem 0.35rem;
+      }
+
+      .palette-scale-swatch.dark-text span {
+        background: rgba(255, 255, 255, 0.55);
+        color: #0f172a;
+      }
+
+      .palette-scale-swatch.light-text span {
+        background: rgba(15, 23, 42, 0.55);
+        color: #fff;
+      }
+
       .logo-frame {
         border: 1px solid var(--border);
         border-radius: 1rem;
@@ -210,7 +261,7 @@
             <div class="row g-3">
               <div class="col-sm-6 col-lg-3">
                 <div class="swatch bg-primary-brand mb-2"></div>
-                <p class="mb-1 fw-semibold">Primary</p>
+                <p class="mb-1 fw-semibold">Primary Navy</p>
                 <p class="mb-0 small text-muted">#04007f</p>
               </div>
               <div class="col-sm-6 col-lg-3">
@@ -227,6 +278,74 @@
                 <div class="swatch" style="background: #38c6a8"></div>
                 <p class="mb-1 fw-semibold">Secondary Teal</p>
                 <p class="mb-0 small text-muted">#38c6A8</p>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge bg-light text-dark border">10 tints</span>
+                <span class="badge bg-light text-dark border">10 shades</span>
+              </div>
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="palette-scale-card">
+                    <div class="palette-scale-header">
+                      <div>
+                        <p class="mb-0 fw-semibold">Primary Navy</p>
+                        <p class="mb-0 small text-muted">#04007f</p>
+                      </div>
+                      <span class="small text-muted">Tint / shade scale</span>
+                    </div>
+                    <div
+                      class="palette-scale-grid"
+                      data-base-color="#04007f"
+                    ></div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="palette-scale-card">
+                    <div class="palette-scale-header">
+                      <div>
+                        <p class="mb-0 fw-semibold">Secondary Blue</p>
+                        <p class="mb-0 small text-muted">#3071B9</p>
+                      </div>
+                      <span class="small text-muted">Tint / shade scale</span>
+                    </div>
+                    <div
+                      class="palette-scale-grid"
+                      data-base-color="#3071b9"
+                    ></div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="palette-scale-card">
+                    <div class="palette-scale-header">
+                      <div>
+                        <p class="mb-0 fw-semibold">Secondary Cyan</p>
+                        <p class="mb-0 small text-muted">#51B2E1</p>
+                      </div>
+                      <span class="small text-muted">Tint / shade scale</span>
+                    </div>
+                    <div
+                      class="palette-scale-grid"
+                      data-base-color="#51b2e1"
+                    ></div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="palette-scale-card">
+                    <div class="palette-scale-header">
+                      <div>
+                        <p class="mb-0 fw-semibold">Secondary Teal</p>
+                        <p class="mb-0 small text-muted">#38c6A8</p>
+                      </div>
+                      <span class="small text-muted">Tint / shade scale</span>
+                    </div>
+                    <div
+                      class="palette-scale-grid"
+                      data-base-color="#38c6a8"
+                    ></div>
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -520,5 +639,76 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./js/app.js"></script>
+    <script>
+      const hexToRgb = (hex) => {
+        const value = hex.replace("#", "");
+        const normalized =
+          value.length === 3
+            ? value
+                .split("")
+                .map((char) => char + char)
+                .join("")
+            : value;
+        const intValue = parseInt(normalized, 16);
+        return {
+          r: (intValue >> 16) & 255,
+          g: (intValue >> 8) & 255,
+          b: intValue & 255,
+        };
+      };
+
+      const rgbToHex = ({ r, g, b }) =>
+        `#${[r, g, b]
+          .map((value) => Math.round(value).toString(16).padStart(2, "0"))
+          .join("")}`;
+
+      const mixColors = (startHex, endHex, amount) => {
+        const start = hexToRgb(startHex);
+        const end = hexToRgb(endHex);
+        return rgbToHex({
+          r: start.r + (end.r - start.r) * amount,
+          g: start.g + (end.g - start.g) * amount,
+          b: start.b + (end.b - start.b) * amount,
+        });
+      };
+
+      const getLuminance = (hex) => {
+        const { r, g, b } = hexToRgb(hex);
+        const toLinear = (value) => {
+          const channel = value / 255;
+          return channel <= 0.03928
+            ? channel / 12.92
+            : ((channel + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+      };
+
+      document.querySelectorAll(".palette-scale-grid").forEach((container) => {
+        const baseColor = container.dataset.baseColor;
+        const tints = Array.from({ length: 10 }, (_, index) =>
+          mixColors(baseColor, "#ffffff", (index + 1) / 10)
+        );
+        const shades = Array.from({ length: 10 }, (_, index) =>
+          mixColors(baseColor, "#000000", (index + 1) / 10)
+        );
+        const palette = [...tints, ...shades];
+
+        container.innerHTML = "";
+
+        palette.forEach((color, index) => {
+          const swatch = document.createElement("div");
+          swatch.className = "palette-scale-swatch";
+          swatch.style.background = color;
+          swatch.title = color;
+
+          const label = document.createElement("span");
+          label.textContent = index < 10 ? `T${index + 1}` : `S${index - 9}`;
+          swatch.appendChild(label);
+
+          swatch.classList.add(getLuminance(color) > 0.7 ? "dark-text" : "light-text");
+          container.appendChild(swatch);
+        });
+      });
+    </script>
   </body>
 </html>
