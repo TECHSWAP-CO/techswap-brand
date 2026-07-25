@@ -101,7 +101,7 @@
   <body>
     <div class="container-fluid p-0">
       <div class="row g-0">
-        <aside class="col-lg-3 sidebar p-4 p-lg-5 position-sticky top-0">
+        <aside class="col-lg-3 sidebar p-4 p-lg-5 position-sticky sticky-lg-top top-0 vh-100 overflow-auto d-none d-lg-block">
           <div class="brand-card rounded-4 p-3 mb-4">
             <img src="img/logo.png" alt="TechSwap logo" class="img-fluid" style="max-height: 54px;">
             <h2 class="h5 mb-1">TechSwap</h2>
@@ -221,12 +221,45 @@
 
           <section id="signature" class="section-card p-4 p-lg-5">
             <h2 class="h3 fw-semibold text-primary-brand mb-3">Email signature</h2>
-            <p class="text-muted mb-4">Keep the signature minimal, stacked, and easy to scan, with the confidentiality notice grouped at the bottom.</p>
-            <div class="signature-box p-4">
-              <div class="fw-semibold">Alex Morgan</div>
-              <div class="text-muted">Head of Brand Experience</div>
-              <div class="mt-2 text-muted">+44 20 5555 0123<br>alex.morgan@techswap.example</div>
-              <div class="signature-line">Confidentiality notice: This message is intended only for the named recipient. If you received it in error, please delete it and notify the sender.</div>
+            <p class="text-muted mb-4">Use the form below to build a Gmail-compatible stacked signature with a single confidentiality notice at the bottom.</p>
+            <div class="row g-4">
+              <div class="col-lg-5">
+                <form id="signatureForm" class="row g-3">
+                  <div class="col-12">
+                    <label for="inputName" class="form-label">Full name</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Alex Morgan" value="Alex Morgan">
+                  </div>
+                  <div class="col-12">
+                    <label for="inputRole" class="form-label">Role / Position</label>
+                    <input type="text" class="form-control" id="inputRole" placeholder="Head of Brand Experience" value="Head of Brand Experience">
+                  </div>
+                  <div class="col-12">
+                    <label for="inputPhone" class="form-label">Mobile</label>
+                    <input type="tel" class="form-control" id="inputPhone" placeholder="+44 20 5555 0123" value="+44 20 5555 0123">
+                  </div>
+                  <div class="col-12">
+                    <label for="inputEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="alex.morgan@techswap.example" value="alex.morgan@techswap.example">
+                  </div>
+                </form>
+              </div>
+              <div class="col-lg-7">
+                <div class="signature-box p-4" id="signaturePreview" style="font-family: 'Kanit', sans-serif;">
+                  <div style="font-weight: 700; color: #04007f;">Alex Morgan</div>
+                  <div style="color: #475569;">Head of Brand Experience</div>
+                  <div style="margin-top: 0.75rem; color: #475569;">
+                    <div id="previewPhone">+44 20 5555 0123</div>
+                    <div id="previewEmail">alex.morgan@techswap.example</div>
+                  </div>
+                  <div class="signature-line" style="border-top: 1px solid #e2e8f0; margin-top: 1rem; padding-top: 0.75rem; color: #64748b; font-size: 0.85rem;">
+                    Confidentiality notice: This message is intended only for the named recipient. If you received it in error, please delete it and notify the sender.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3">
+              <p class="small text-muted mb-1">Gmail-compatible note:</p>
+              <p class="small text-muted">This signature preview uses simple inline styles and standard HTML elements for high email client compatibility.</p>
             </div>
           </section>
         </main>
@@ -234,5 +267,17 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const updateSignaturePreview = () => {
+        document.getElementById('previewPhone').textContent = document.getElementById('inputPhone').value || '+44 20 5555 0123';
+        document.getElementById('previewEmail').textContent = document.getElementById('inputEmail').value || 'alex.morgan@techswap.example';
+        document.querySelector('#signaturePreview > div:first-child').textContent = document.getElementById('inputName').value || 'Alex Morgan';
+        document.querySelector('#signaturePreview > div:nth-child(2)').textContent = document.getElementById('inputRole').value || 'Head of Brand Experience';
+      };
+
+      document.querySelectorAll('#signatureForm input').forEach(input => {
+        input.addEventListener('input', updateSignaturePreview);
+      });
+    </script>
   </body>
 </html>
