@@ -223,6 +223,65 @@
         font-size: 0.8rem;
         color: var(--muted);
       }
+
+      .contrast-card {
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1rem;
+        background: #fff;
+      }
+
+      .contrast-swatch {
+        display: block;
+        min-height: 70px;
+        border-radius: 0.8rem;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        padding: 0.8rem;
+        font-weight: 600;
+      }
+
+      .contrast-preview {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        min-height: 54px;
+        padding: 0.75rem 0.9rem;
+        border-radius: 0.8rem;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .contrast-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        border-radius: 999px;
+        padding: 0.25rem 0.6rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .contrast-pill.pass {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .contrast-pill.fail {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .contrast-table {
+        font-size: 0.92rem;
+      }
+
+      .contrast-table th,
+      .contrast-table td {
+        vertical-align: middle;
+      }
     </style>
   </head>
   <body>
@@ -516,6 +575,28 @@
             </div>
           </section>
 
+          <section id="contrast" class="section-card p-4 p-lg-5 mb-4">
+            <h2 class="h3 fw-semibold text-primary-brand mb-3">WCAG contrast check</h2>
+            <p class="text-muted mb-4">
+              The table below shows real WCAG contrast ratios for the requested foreground/background combinations using the TechSwap palette.
+            </p>
+            <div class="contrast-card">
+              <div class="table-responsive">
+                <table class="table contrast-table align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Preview</th>
+                      <th scope="col">Contrast ratio</th>
+                      <th scope="col">WCAG result</th>
+                    </tr>
+                  </thead>
+                  <tbody id="contrastTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
           <section id="spacing" class="section-card p-4 p-lg-5 mb-4">
             <h2 class="h3 fw-semibold text-primary-brand mb-3">Spacing</h2>
             <p class="text-muted mb-4">
@@ -779,7 +860,7 @@
                 .map((char) => char + char)
                 .join("")
             : value;
-        const intValue = parseInt(normalized, 16);
+        const intValue = Number.parseInt(normalized, 16);
         return {
           r: (intValue >> 16) & 255,
           g: (intValue >> 8) & 255,
@@ -787,6 +868,74 @@
         };
       };
 
+      const getRelativeLuminance = (hex) => {
+        const { r, g, b } = hexToRgb(hex);
+        const toLinear = (channel) => {
+          const value = channel / 255;
+          return value <= 0.04045
+            ? value / 12.92
+            : ((value + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+      };
+
+      const getContrastRatio = (hexA, hexB) => {
+        const lumA = getRelativeLuminance(hexA);
+        const lumB = getRelativeLuminance(hexB);
+        const lighter = Math.max(lumA, lumB);
+        const darker = Math.min(lumA, lumB);
+        return (lighter + 0.05) / (darker + 0.05);
+      };
+
+      const getResult = (ratio) => {
+        if (ratio >= 7) {
+          return { label: "AAA", className: "pass" };
+        }
+        if (ratio >= 4.5) {
+          return { label: "AA", className: "pass" };
+        }
+        return { label: "Fail", className: "fail" };
+      };
+
+      const combinations = [
+        { background: "#ffffff", text: "#000000", label: "White background / black text" },
+        { background: "#ffffff", text: "#04007f", label: "White background / primary navy text" },
+        { background: "#ffffff", text: "#3071b9", label: "White background / secondary blue text" },
+        { background: "#ffffff", text: "#51b2e1", label: "White background / secondary cyan text" },
+        { background: "#ffffff", text: "#38c6a8", label: "White background / secondary teal text" },
+        { background: "#04007f", text: "#ffffff", label: "Primary Navy background / white text" },
+        { background: "#3071b9", text: "#ffffff", label: "Secondary blue background / white text" },
+        { background: "#51b2e1", text: "#ffffff", label: "Secondary cyan background / white text" },
+        { background: "#38c6a8", text: "#ffffff", label: "Secondary teal background / white text" },
+        { background: "#51b2e1", text: "#000000", label: "Secondary cyan background / black text" },
+        { background: "#38c6a8", text: "#000000", label: "Secondary teal background / black text" },
+      ];
+
+      const tableBody = document.getElementById("contrastTableBody");
+      if (tableBody) {
+        tableBody.innerHTML = combinations
+          .map((item, index) => {
+            const ratio = getContrastRatio(item.background, item.text);
+            const rounded = ratio.toFixed(2);
+            const result = getResult(ratio);
+            return `
+              <tr>
+                <td>${index + 1}</td>
+                <td>
+                  <div
+                    class="contrast-preview"
+                    style="background: ${item.background}; color: ${item.text};"
+                  >
+                    Aa
+                  </div>
+                </td>
+                <td>${rounded}:1</td>
+                <td><span class="contrast-pill ${result.className}">${result.label}</span></td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
       const rgbToHex = ({ r, g, b }) =>
         `#${[r, g, b]
           .map((value) => Math.round(value).toString(16).padStart(2, "0"))
