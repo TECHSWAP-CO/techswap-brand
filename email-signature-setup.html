@@ -45,16 +45,25 @@
       }
 
       .step-image {
-        border: 1px dashed var(--border);
+        border: 1px solid var(--border);
         border-radius: 1rem;
-        min-height: 220px;
+        min-height: 240px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: linear-gradient(135deg, #f8fbff 0%, #eef5ff 100%);
         color: var(--muted);
-        padding: 1.5rem;
+        padding: 1rem;
         text-align: center;
+        overflow: hidden;
+      }
+
+      .step-image img {
+        width: 100%;
+        height: 100%;
+        max-height: 420px;
+        object-fit: contain;
+        border-radius: 0.75rem;
       }
 
       .step-number {
@@ -76,9 +85,9 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
           <div>
             <p class="text-primary fw-semibold mb-2">Setup guide</p>
-            <h1 class="h2 fw-bold mb-2">How to set up your email signature</h1>
+            <h1 class="h2 fw-bold mb-2">How to set up your Gmail email signature</h1>
             <p class="text-muted mb-0">
-              Follow these steps to add the TechSwap signature to your email client.
+              This guide is for configuring the TechSwap email signature in Gmail only.
             </p>
           </div>
           <a href="index.html" class="btn btn-outline-primary">Back to brand guide</a>
@@ -89,16 +98,13 @@
             <div class="section-card p-4">
               <h2 class="h5 fw-semibold mb-3">
                 <span class="step-number me-2">1</span>
-                Open your email settings
+                Open the Gmail quick settings
               </h2>
               <p class="text-muted mb-3">
-                Go to your email account settings and open the signature or compose settings section.
+                Click on the <strong>Gear</strong> icon to open Quick settings, then click <strong>See all settings</strong>.
               </p>
               <div class="step-image">
-                <div>
-                  <p class="fw-semibold mb-1">Step 1 placeholder</p>
-                  <p class="mb-0 small">Add screenshot here</p>
-                </div>
+                <img src="img/email-signature-setup/step1.png" alt="Step 1: Open Gmail quick settings" />
               </div>
             </div>
           </div>
@@ -110,13 +116,10 @@
                 Create a new signature
               </h2>
               <p class="text-muted mb-3">
-                Create a new signature and paste the HTML content from the preview in the brand guide.
+                In the <strong>General</strong> tab, scroll down to the <strong>Signature</strong> section, click <strong>Create new</strong>, and name your new signature.
               </p>
               <div class="step-image">
-                <div>
-                  <p class="fw-semibold mb-1">Step 2 placeholder</p>
-                  <p class="mb-0 small">Add screenshot here</p>
-                </div>
+                <img src="img/email-signature-setup/step2.png" alt="Step 2: Create a new Gmail signature" />
               </div>
             </div>
           </div>
@@ -125,16 +128,13 @@
             <div class="section-card p-4">
               <h2 class="h5 fw-semibold mb-3">
                 <span class="step-number me-2">3</span>
-                Add the TechSwap branding
+                Paste your signature and set defaults
               </h2>
               <p class="text-muted mb-3">
-                Insert the logo, name, role, phone number, email, and website using the approved formatting.
+                Paste the copied email signature, then specify the signature defaults for both <strong>New emails</strong> and <strong>On reply/forward</strong>. Finally, click <strong>Save changes</strong>.
               </p>
               <div class="step-image">
-                <div>
-                  <p class="fw-semibold mb-1">Step 3 placeholder</p>
-                  <p class="mb-0 small">Add screenshot here</p>
-                </div>
+                <img src="img/email-signature-setup/step3.png" alt="Step 3: Paste Gmail signature and set defaults" />
               </div>
             </div>
           </div>
@@ -143,16 +143,13 @@
             <div class="section-card p-4">
               <h2 class="h5 fw-semibold mb-3">
                 <span class="step-number me-2">4</span>
-                Save and test
+                Verify the result
               </h2>
               <p class="text-muted mb-3">
-                Save the signature, send a test email, and confirm the layout appears correctly.
+                Compose a new email and confirm that the email signature appears correctly.
               </p>
               <div class="step-image">
-                <div>
-                  <p class="fw-semibold mb-1">Step 4 placeholder</p>
-                  <p class="mb-0 small">Add screenshot here</p>
-                </div>
+                <img src="img/email-signature-setup/step4.png" alt="Step 4: Verify the Gmail signature" />
               </div>
             </div>
           </div>
