@@ -112,14 +112,27 @@
         margin-bottom: 0.75rem;
       }
 
-      .palette-scale-grid {
+      .palette-scale-wrapper {
         display: grid;
-        grid-template-columns: repeat(10, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      .palette-scale-stack-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+      }
+
+      .palette-scale-grid {
+        display: flex;
+        flex-direction: column;
         gap: 0.35rem;
       }
 
       .palette-scale-swatch {
-        min-height: 44px;
+        position: relative;
+        min-height: 34px;
         border-radius: 0.6rem;
         border: 1px solid rgba(15, 23, 42, 0.1);
         display: flex;
@@ -138,6 +151,26 @@
         padding: 0.15rem 0.35rem;
       }
 
+      .color-copy-btn {
+        position: absolute;
+        top: 0.35rem;
+        right: 0.35rem;
+        border: 0;
+        background: rgba(255, 255, 255, 0.9);
+        color: #0f172a;
+        border-radius: 999px;
+        padding: 0.2rem 0.45rem;
+        font-size: 0.58rem;
+        font-weight: 700;
+        line-height: 1;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.16);
+      }
+
+      .color-copy-btn:hover {
+        background: #fff;
+      }
+
       .palette-scale-swatch.dark-text span {
         background: rgba(255, 255, 255, 0.55);
         color: #0f172a;
@@ -146,6 +179,22 @@
       .palette-scale-swatch.light-text span {
         background: rgba(15, 23, 42, 0.55);
         color: #fff;
+      }
+
+      @media (max-width: 991px) {
+        .palette-scale-wrapper {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 576px) {
+        .palette-scale-wrapper {
+          grid-template-columns: 1fr;
+        }
+
+        .palette-scale-stack-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
       .logo-frame {
@@ -234,6 +283,13 @@
                     style="max-height: 90px"
                   />
                   <p class="mb-0 fw-semibold">Primary mark</p>
+                  <a
+                    class="btn btn-sm btn-outline-primary mt-3"
+                    href="img/symbolmark-logo.png"
+                    download
+                  >
+                    Download logo
+                  </a>
                 </div>
               </div>
               <div class="col-md-6">
@@ -245,6 +301,13 @@
                     style="max-height: 90px"
                   />
                   <p class="mb-0 fw-semibold">Wordmark</p>
+                  <a
+                    class="btn btn-sm btn-outline-primary mt-3"
+                    href="img/wordmark-logo.png"
+                    download
+                  >
+                    Download logo
+                  </a>
                 </div>
               </div>
             </div>
@@ -259,91 +322,147 @@
               supporting colors and a signature gradient.
             </p>
             <div class="row g-3">
-              <div class="col-sm-6 col-lg-3">
-                <div class="swatch bg-primary-brand mb-2"></div>
+              <div class="col-sm-6 col-lg-3 position-relative">
+                <div class="position-relative mb-2">
+                  <div class="swatch bg-primary-brand"></div>
+                  <button class="color-copy-btn" type="button" data-hex="#04007f">Copy</button>
+                </div>
                 <p class="mb-1 fw-semibold">Primary Navy</p>
                 <p class="mb-0 small text-muted">#04007f</p>
               </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="swatch" style="background: #3071b9"></div>
+              <div class="col-sm-6 col-lg-3 position-relative">
+                <div class="position-relative mb-2">
+                  <div class="swatch" style="background: #3071b9"></div>
+                  <button class="color-copy-btn" type="button" data-hex="#3071b9">Copy</button>
+                </div>
                 <p class="mb-1 fw-semibold">Secondary Blue</p>
                 <p class="mb-0 small text-muted">#3071B9</p>
               </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="swatch" style="background: #51b2e1"></div>
+              <div class="col-sm-6 col-lg-3 position-relative">
+                <div class="position-relative mb-2">
+                  <div class="swatch" style="background: #51b2e1"></div>
+                  <button class="color-copy-btn" type="button" data-hex="#51b2e1">Copy</button>
+                </div>
                 <p class="mb-1 fw-semibold">Secondary Cyan</p>
                 <p class="mb-0 small text-muted">#51B2E1</p>
               </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="swatch" style="background: #38c6a8"></div>
+              <div class="col-sm-6 col-lg-3 position-relative">
+                <div class="position-relative mb-2">
+                  <div class="swatch" style="background: #38c6a8"></div>
+                  <button class="color-copy-btn" type="button" data-hex="#38c6a8">Copy</button>
+                </div>
                 <p class="mb-1 fw-semibold">Secondary Teal</p>
                 <p class="mb-0 small text-muted">#38c6A8</p>
               </div>
             </div>
             <div class="mt-4">
-              <div class="d-flex flex-wrap gap-2 mb-3">
-                <span class="badge bg-light text-dark border">10 tints</span>
-                <span class="badge bg-light text-dark border">10 shades</span>
-              </div>
-              <div class="row g-3">
-                <div class="col-12">
-                  <div class="palette-scale-card">
-                    <div class="palette-scale-header">
-                      <div>
-                        <p class="mb-0 fw-semibold">Primary Navy</p>
-                        <p class="mb-0 small text-muted">#04007f</p>
-                      </div>
-                      <span class="small text-muted">Tint / shade scale</span>
+              <div class="palette-scale-wrapper">
+                <div class="palette-scale-card">
+                  <div class="palette-scale-header">
+                    <div>
+                      <p class="mb-0 fw-semibold">Primary Navy</p>
+                      <p class="mb-0 small text-muted">#04007f</p>
                     </div>
-                    <div
-                      class="palette-scale-grid"
-                      data-base-color="#04007f"
-                    ></div>
+                    <span class="small text-muted">Tint / shade</span>
+                  </div>
+                  <div class="palette-scale-stack-grid">
+                    <div>
+                      <div class="small fw-semibold text-muted mb-2">Tints</div>
+                      <div
+                        class="palette-scale-grid"
+                        data-base-color="#04007f"
+                        data-tone="tint"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="small fw-semibold text-muted mb-2">Shades</div>
+                      <div
+                        class="palette-scale-grid"
+                        data-base-color="#04007f"
+                        data-tone="shade"
+                      ></div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="palette-scale-card">
-                    <div class="palette-scale-header">
-                      <div>
-                        <p class="mb-0 fw-semibold">Secondary Blue</p>
-                        <p class="mb-0 small text-muted">#3071B9</p>
-                      </div>
-                      <span class="small text-muted">Tint / shade scale</span>
+                <div class="palette-scale-card">
+                  <div class="palette-scale-header">
+                    <div>
+                      <p class="mb-0 fw-semibold">Secondary Blue</p>
+                      <p class="mb-0 small text-muted">#3071B9</p>
                     </div>
-                    <div
-                      class="palette-scale-grid"
-                      data-base-color="#3071b9"
-                    ></div>
+                    <span class="small text-muted">Tint / shade</span>
+                  </div>
+                  <div class="palette-scale-stack-grid">
+                    <div>
+                      <div class="small fw-semibold text-muted mb-2">Tints</div>
+                      <div
+                        class="palette-scale-grid"
+                        data-base-color="#3071b9"
+                        data-tone="tint"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="small fw-semibold text-muted mb-2">Shades</div>
+                      <div
+                        class="palette-scale-grid"
+                        data-base-color="#3071b9"
+                        data-tone="shade"
+                      ></div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="palette-scale-card">
-                    <div class="palette-scale-header">
-                      <div>
-                        <p class="mb-0 fw-semibold">Secondary Cyan</p>
-                        <p class="mb-0 small text-muted">#51B2E1</p>
-                      </div>
-                      <span class="small text-muted">Tint / shade scale</span>
+                <div class="palette-scale-card">
+                  <div class="palette-scale-header">
+                    <div>
+                      <p class="mb-0 fw-semibold">Secondary Cyan</p>
+                      <p class="mb-0 small text-muted">#51B2E1</p>
                     </div>
-                    <div
-                      class="palette-scale-grid"
-                      data-base-color="#51b2e1"
-                    ></div>
+                    <span class="small text-muted">Tint / shade</span>
+                  </div>
+                  <div class="palette-scale-stack-grid">
+                    <div>
+                      <div class="small fw-semibold text-muted mb-2">Tints</div>
+                      <div
+                        class="palette-scale-grid"
+                        data-base-color="#51b2e1"
+                        data-tone="tint"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="small fw-semibold text-muted mb-2">Shades</div>
+                      <div
+                        class="palette-scale-grid"
+                        data-base-color="#51b2e1"
+                        data-tone="shade"
+                      ></div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="palette-scale-card">
-                    <div class="palette-scale-header">
-                      <div>
-                        <p class="mb-0 fw-semibold">Secondary Teal</p>
-                        <p class="mb-0 small text-muted">#38c6A8</p>
-                      </div>
-                      <span class="small text-muted">Tint / shade scale</span>
+                <div class="palette-scale-card">
+                  <div class="palette-scale-header">
+                    <div>
+                      <p class="mb-0 fw-semibold">Secondary Teal</p>
+                      <p class="mb-0 small text-muted">#38c6A8</p>
                     </div>
-                    <div
-                      class="palette-scale-grid"
-                      data-base-color="#38c6a8"
-                    ></div>
+                    <span class="small text-muted">Tint / shade</span>
+                  </div>
+                  <div class="palette-scale-stack-grid">
+                    <div>
+                      <div class="small fw-semibold text-muted mb-2">Tints</div>
+                      <div
+                        class="palette-scale-grid"
+                        data-base-color="#38c6a8"
+                        data-tone="tint"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="small fw-semibold text-muted mb-2">Shades</div>
+                      <div
+                        class="palette-scale-grid"
+                        data-base-color="#38c6a8"
+                        data-tone="shade"
+                      ></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -365,6 +484,16 @@
             <p class="text-muted mb-4">
               Kanit is the primary typeface for TechSwap, delivering a modern
               and confident tone in both headlines and body copy.
+            </p>
+            <p class="mb-3">
+              <a
+                href="https://fonts.google.com/specimen/Kanit"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-primary btn-sm"
+              >
+                View Kanit on Google Fonts
+              </a>
             </p>
             <div class="row g-4">
               <div class="col-lg-6">
@@ -683,15 +812,40 @@
         return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
       };
 
+      const bindCopyButtons = () => {
+        document.querySelectorAll("button[data-hex]").forEach((button) => {
+          button.addEventListener("click", async (event) => {
+            event.preventDefault();
+            const hex = button.dataset.hex;
+            if (!hex) return;
+
+            const originalText = button.textContent;
+            try {
+              if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(hex);
+              } else {
+                window.prompt("Copy this color value:", hex);
+              }
+              button.textContent = "Copied";
+            } catch (error) {
+              button.textContent = "Copy failed";
+            }
+
+            window.setTimeout(() => {
+              button.textContent = originalText;
+            }, 1400);
+          });
+        });
+      };
+
       document.querySelectorAll(".palette-scale-grid").forEach((container) => {
         const baseColor = container.dataset.baseColor;
-        const tints = Array.from({ length: 10 }, (_, index) =>
-          mixColors(baseColor, "#ffffff", (index + 1) / 10)
+        const tone = container.dataset.tone;
+        const palette = Array.from({ length: 10 }, (_, index) =>
+          tone === "tint"
+            ? mixColors(baseColor, "#ffffff", (index + 1) / 10)
+            : mixColors(baseColor, "#000000", (index + 1) / 10)
         );
-        const shades = Array.from({ length: 10 }, (_, index) =>
-          mixColors(baseColor, "#000000", (index + 1) / 10)
-        );
-        const palette = [...tints, ...shades];
 
         container.innerHTML = "";
 
@@ -702,12 +856,21 @@
           swatch.title = color;
 
           const label = document.createElement("span");
-          label.textContent = index < 10 ? `T${index + 1}` : `S${index - 9}`;
+          label.textContent = tone === "tint" ? `T${index + 1}` : `S${index + 1}`;
           swatch.appendChild(label);
+
+          const copyButton = document.createElement("button");
+          copyButton.type = "button";
+          copyButton.className = "color-copy-btn";
+          copyButton.dataset.hex = color;
+          copyButton.textContent = "Copy";
+          swatch.appendChild(copyButton);
 
           swatch.classList.add(getLuminance(color) > 0.7 ? "dark-text" : "light-text");
           container.appendChild(swatch);
         });
+
+        bindCopyButtons();
       });
     </script>
   </body>
